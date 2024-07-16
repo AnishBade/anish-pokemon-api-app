@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  pokemon-postgresql:
+    image: postgres:15.3
+    container_name: pokemon-postgresql
+    restart: always
+    volumes:
+      - pokemon-postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+
+  web:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pokemon-postgresql
+
+volumes:
+  pokemon-postgres-data:
