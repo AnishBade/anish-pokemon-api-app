@@ -17,12 +17,17 @@ from app.api.api_v1.endpoints import pokemon
 
 app = FastAPI(title='Pokemon API', openapi_url="/api/v1/openapi.json")
 
+origins = [
+    "http://localhost:3000",  # React frontend running on localhost:3000
+    # Add more origins if needed
+]
 
 # Set all CORS enabled origins
 if settings.BACKEND_CORS_ORIGINS:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.BACKEND_CORS_ORIGINS,
+        # allow_origins=settings.BACKEND_CORS_ORIGINS,
+        allow_origins=origins, 
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
